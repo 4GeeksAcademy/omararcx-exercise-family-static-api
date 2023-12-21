@@ -44,13 +44,14 @@ class FamilyStructure:
     def add_member(self, member):
         person = {
             "id": self._generateId(),
-            "first_name": member.get("first_name"),
+            "name": member.get("first_name"),
             "last_name": self.last_name,
             "age": member.get("age"),
             "lucky_numbers": member.get("lucky_numbers")
 
         }
-        return self._members.append(person)
+        self._members.append(person)
+        return person
        
         
 

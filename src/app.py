@@ -13,7 +13,7 @@ app.url_map.strict_slashes = False
 CORS(app)
 
 # create the jackson family object
-jackson_family = FamilyStructure("Jackson")
+jackson_family = FamilyStructure('Jackson')
 
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
@@ -26,34 +26,33 @@ def sitemap():
     return generate_sitemap(app)
 
 @app.route('/members', methods=['GET'])
-def handle_hello():
+def get_all_members():
     members = jackson_family.get_all_members()
-    response_body = {
-        "hello": "world",
-        "family": members
-    }
+    response_body = [ members]
 
 
     return jsonify(response_body), 200
 
-@app.route('/members', methods=['POST'])
-def insert_member():
+@app.route('/member', methods=['POST'])
+def new_member():
    request_body = request.json
    print(request_body)
    jackson_family.add_member(request_body)
 
    return jsonify("Todo ha ido fenomenal"), 200
 
-@app.route('/members/<int:member_id>', methods=['GET'])
-def get_member(member_id):
-    single_member = jackson_family.get_member(member_id)
-    if single_member:
-        return jsonify(single_member), 200
-    else:
-        return jsonify({"error": "El miembro de la familia no ha sido encontrado"}), 404
+@app.route('/member/<int:id>', methods=['GET'])
+def get_one_member(id):
+
+    member_info = jackson_family.get_member(id)
+
+    if member_info is None:
+        return jsonify({"Message": "No se encontró ningún miembro con ese id"}), 404
+
+    return jsonify(member_info), 200
 
 
-@app.route('/members/<int:member_id>', methods=['DELETE'])
+@app.route('/member/<int:member_id>', methods=['DELETE'])
 def delete_member(member_id):
    jackson_family.delete_member(member_id)
 
