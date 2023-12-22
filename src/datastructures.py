@@ -42,24 +42,30 @@ class FamilyStructure:
         return randint(0, 99999999)
 
     def add_member(self, member):
-        person = {
-            "id": self._generateId(),
-            "name": member.get("first_name"),
+        member_id = {
+            'id': member.get("id", self._generateId()),
             "last_name": self.last_name,
-            "age": member.get("age"),
-            "lucky_numbers": member.get("lucky_numbers")
-
         }
-        self._members.append(person)
-        return person
+        # person = {
+        #     "id": self._generateId(),
+        #     "name": member.get("first_name"),
+        #     "last_name": self.last_name,
+        #     "age": member.get("age"),
+        #     "lucky_numbers": member.get("lucky_numbers")
+
+        # }
+        member.update(member_id)
+        self._members.append(member)
+        return member
        
         
 
     def delete_member(self, id):
         for element in self._members:
             if id == element.get("id"):
-                return self._members.remove(element)
-
+                self._members.remove(element)
+                return True
+        return None
         # fill this method and update the return
         
 
@@ -67,6 +73,7 @@ class FamilyStructure:
         for element in self._members:
             if id == element.get("id"):
                 return element
+        return None
         # fill this method and update the return
        
 
